@@ -1,0 +1,19 @@
+{% extends '_layout.html' %}
+{% block title %}collectIn - Panou principal{% endblock %}
+
+{% block content %}
+<h1>{{ user.name }}</h1>
+<div class="subtitle">Panou principal</div>
+
+<div class="row">
+    {% if albums|length == 0 %}
+        <div class="text-center empty-content">
+            Nu aveți încă nici un eveniment.<br>
+            <a href="/dashboard/create">Creați unul acum!</a>
+        </div>
+    {% endif %}
+
+    {% include '__albums.html' %}
+</div>
+{% endblock %}
+

@@ -1,0 +1,38 @@
+{% extends '_layout.public.html' %}
+{% block title %}Bine ați venit pe collectIn{% endblock %}
+
+{% block body_class %}background{% endblock %}
+
+{% block content_public %}
+    <div class="space30"></div>
+    <div class="space30"></div>
+    <div class="space30"></div>
+    <h1>collectIn</h1>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="box-login">
+                <form id="loginForm" class="ci-form">
+                    <div class="form-group">
+                        <label for="email">Adresa de e-mail</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Parola</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-app">Intră în cont</button>
+                    </div>
+                    <a href="/forgot">Ați uitat parola?</a><br>
+                    Nu aveți un cont? <a href="/register">Creați-vă unul</a>.
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>Forms.init('loginForm')</script>
+{% endblock %}

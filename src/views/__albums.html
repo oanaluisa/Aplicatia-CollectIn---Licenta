@@ -1,0 +1,15 @@
+{% for album in albums %}
+<div class="col-sm-6 col-md-4">
+    <div class="album">
+        <div class="album-img"
+             {% if album.cover != null %}style="background-image: url('/media/{{ album.cover.photo }}');"
+             {% else %}style="background-image: url('/public/img/defaultCover.jpg');"{% endif %}>
+            <a href="/dashboard/album/{{ album.uri }}"></a>
+        </div>
+        <div class="album-title">
+            <div class="title"><a href="/dashboard/album/{{ album.uri }}">{{ album.name }}</a></div>
+            <div class="info">{{ album.date_from | date }} - {{ album.location }}</div>
+        </div>
+    </div>
+</div>
+{% endfor %}

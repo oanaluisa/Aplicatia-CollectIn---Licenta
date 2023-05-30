@@ -1,0 +1,27 @@
+{% extends '_layout.html' %}
+{% block title %}{{ album.name }} - Add photos{% endblock %}}
+
+{% block content %}
+<h1>{{ album.name }} - Adaugă fotografii</h1>
+<div class="subtitle"><a href="/dashboard/album/{{ album.uri }}">< Înapoi la {{ album.name }}</a></div>
+
+<form id="albumAddPhotosForm">
+    <input type="hidden" id="inputHidAlbumId" name="albumId" value="{{ album.id }}">
+
+    <div class="files-drop dropzone" id="drop-photos"></div>
+
+    <a href="/dashboard/album/{{ album.uri }}" class="btn btn-app">< Înapoi</a>
+</form>
+
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="/public/dropzone.min.css">
+    <script src="/public/dropzone.min.js"></script>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        Forms.init('albumAddPhotosForm');
+    </script>
+{% endblock %}

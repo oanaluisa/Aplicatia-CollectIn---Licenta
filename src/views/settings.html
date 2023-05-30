@@ -1,0 +1,70 @@
+{% extends '_layout.html' %}
+{% block title %}collectIn - Setări personale{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="prez-when-bodyimg">
+                <h1>{{ user.name }}</h1>
+                <form id="settingsProfileForm" class="ci-form">
+                    <input type="hidden" name="id" value="{{ user._id }}">
+
+                    <div class="form-group">
+                        <label for="name">Nume</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Locație</label>
+                        <input type="text" class="form-control" id="location" name="location" value="{{ user.location }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-app">Modifică date profil</button>
+                    </div>
+                </form>
+
+                <h2>Schimbă parola</h2>
+                <form id="settingsPasswordForm" class="ci-form">
+                    <input type="hidden" name="id" value="{{ user._id }}">
+
+                    <div class="form-group">
+                        <label for="current_password">Parola curentă</label>
+                        <input type="password" class="form-control" id="current_password" name="current_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password">Parola nouă</label>
+                        <input type="password" class="form-control" id="new_password" name="new_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password_confirm">Confirmă parola nouă</label>
+                        <input type="password" class="form-control" id="new_password_confirm" name="new_password_confirm" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-app">Schimbă parola</button>
+                    </div>
+                </form>
+
+                <h2>Zona de securitate</h2>
+                <a href="#" class="btn btn-app" id="btnDeleteAccount">Ștergeți contul definitiv</a>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    Forms.init('settingsProfileForm');
+    Forms.init('settingsPasswordForm');
+
+    $('#btnDeleteAccount').on('click', function(e) {
+        e.preventDefault();
+        var c = confirm('Sunteți sigur că doriți să ștergeți acest cont?\r\nAtenție, această operațiune este irevocabilă!');
+        if (c) window.Actions.deleteAccount();
+    });
+</script>
+{% endblock %}

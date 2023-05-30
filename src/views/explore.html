@@ -1,0 +1,26 @@
+{% extends '_layout.html' %}
+{% block title %}collectIn - Explorează evenimente{% endblock %}
+
+{% block content %}
+<h1>Explorează</h1>
+<div class="subtitle">Evenimente publice</div>
+
+{% if locations|length == 0 %}
+    <div class="text-center empty-content">
+        Momentan, nu există nici o locație cu evenimente publice.
+    </div>
+{% else %}
+    <h2>Prima dată, alege o locație</h2>
+{% endif %}
+
+<div class="row">
+    {% for location in locations %}
+        <div class="col-sm-4 col-md-3">
+            <div class="location">
+                <a href="/dashboard/explore/{{ location.slug }}">{{ location.name }}</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends '_layout.html' %}
+{% block title %}collectIn - Explorează evenimente{% endblock %}
+
+{% block content %}
+<h1>Explorează <span style="text-transform:uppercase">{{ location.name }}</span></h1>
+<div class="subtitle">Evenimente publice</div>
+
+<div class="explore-search">
+    <form id="exploreSearchForm">
+        <input type="text" id="name" name="name" placeholder="Caută un eveniment după denumire..." value="{{ search }}">
+        <button type="submit" class="btn btn-app">Caută</button>
+        <a href="/dashboard/explore/{{ location.slug }}" class="btn btn-app">Resetează căutarea</a>
+    </form>
+</div>
+
+<div class="row">
+    {% if albums|length == 0 %}
+        <div class="text-center empty-content">
+            Nu există nici un eveniment care să îndeplinească criteriile dumneavoastră.<br>
+            Mergeți înapoi la <a href="/dashboard/explore">pagina principală de explorare</a>.
+        </div>
+    {% endif %}
+
+    {% include '__albums.html' %}
+</div>
+{% endblock %}

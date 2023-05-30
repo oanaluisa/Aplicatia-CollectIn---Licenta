@@ -1,0 +1,9 @@
+{% extends '_layout.html' %}
+
+{% block content %}
+<h1>{{ owner.name }}</h1>
+
+<div class="row">
+    {% include '__albums.html' %}
+</div>
+{% endblock %}

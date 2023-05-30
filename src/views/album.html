@@ -1,0 +1,120 @@
+{% extends '_layout.html' %}
+{% block title %}{{ album.name }}{% endblock %}}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-9">
+        <h1>{{ album.name }}</h1>
+        <div class="subtitle">{{ album.location }} - {{ album.date_from | date}}</div>
+    </div>
+    <div class="col-xs-3 text-right">
+
+    </div>
+</div>
+
+<div class="row">
+    {% for photo in album.photos %}
+        <div class="col-xs-6 col-sm-6 col-md-3">
+            <div class="photo">
+                {% if member %}
+                    <div class="options">
+                        <a href="#" class="btnDeletePhoto" data-photo-id="{{ photo._id }}"><i class="fa fa-close"></i></a>
+                        <a href="#" class="btnAlbumSetCover" data-photo-id="{{ photo._id }}"><i class="fa fa-flag"></i></a>
+                    </div>
+                {% endif %}
+                <a href="/media/{{ photo.photo }}" class="fancybox" rel="album-{{ album.id }}">
+                    <img src="/media/{{ photo.photo }}" alt="" width="100%">
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="album-options">
+    {% if member %}
+        <a href="/dashboard/album/{{ album.uri }}/add-photos" class="btn btn-app">Adaugă fotografii</a>
+        {% if member.rank == 0 %}
+            <a href="#" class="btn btn-app" id="btnDeleteAlbum">Șterge eveniment</a>
+            <!-- <a href="/dashboard/album/{{ album.uri }}/edit" class="btn btn-app" id="btnEditAlbum">Editează eveniment</a> -->
+        {% else %}
+            <a href="#" class="btn btn-app" id="btnLeaveAlbum">Părăsește eveniment</a>
+        {% endif %}
+    {% else %}
+        {% if album.public %}
+            <a href="#" class="btn btn-app" id="btnJoinAlbum">Alătură-te acestui eveniment</a>
+        {% endif %}
+    {% endif %}
+</div>
+
+<div class="album-members">
+    <div class="row">
+        <div class="col-sm-6">
+            <h3 class="spaceless">Membrii</h3>
+            {% for m in members %}
+                <div class="album-member">
+                    {% if member.rank == 0 %}<div class="album-member-delete"><a href="#" data-member-id="{{ m._id }}"><i class="fa fa-close"></i></a></div>{% endif %}
+                    <a href="/dashboard/user/{{ m._id }}">{{ m.name}} </a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-6">
+            {% if member.rank == 0 %}
+                <h3 class="spaceless">Invită un membru nou</h3>
+                <form id="albumInviteMemberForm">
+                    <input type="hidden" name="aid" value="{{ album._id }}">
+                    <input type="email" id="member_email" name="member_email" placeholder="Adresa de e-mail">
+                    <button type="submit" class="btn btn-app">Invită</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    Forms.init('albumInviteMemberForm');
+    Forms.init('editAlbumForm');
+
+    $('.photo .btnDeletePhoto').on('click', function(e) {
+        e.preventDefault();
+        var photoId = $(this).data('photoId');
+        var c = confirm('Sunteți sigur că doriți să ștergeți această fotografie?\r\nAtenție, această operațiune este irevocabilă!');
+        if (c) window.Actions.deletePhoto('{{ album.id }}', photoId);
+    });
+
+    $('.photo .btnAlbumSetCover').on('click', function(e) {
+        e.preventDefault();
+        var photoId = $(this).data('photoId');
+        var c = confirm('Sunteți sigur că doriți să setați ca și copertă această fotografie?');
+        if (c) window.Actions.albumSetCover('{{ album.id }}', photoId);
+    });
+
+    $('#btnDeleteAlbum').on('click', function(e) {
+        e.preventDefault();
+        var c = confirm('Sunteți sigur că doriți să ștergeți acest eveniment?\r\nAtenție, această operațiune este irevocabilă!');
+        if (c) window.Actions.deleteAlbum('{{ album.id }}');
+    });
+
+    $('#btnLeaveAlbum').on('click', function(e) {
+        e.preventDefault();
+        var c = confirm('Sunteți sigur că doriți să parăsiți acest eveniment?');
+        if (c) window.Actions.leaveAlbum('{{ album.id }}');
+    });
+
+    $('#btnJoinAlbum').on('click', function(e) {
+        e.preventDefault();
+        var c = confirm('Sunteți sigur că doriți să vă alăturați acestui eveniment?');
+        if (c) window.Actions.joinAlbum('{{ album.id }}');
+    });
+
+    $('.album-members .album-member-delete a').on('click', function(e) {
+        e.preventDefault();
+        var memberId = $(this).data('memberId');
+        var c = confirm('Sunteți sigur că doriți să eliminați acest membru?');
+        if (c) window.Actions.deleteAlbumMember('{{ album.id }}', memberId);
+    });
+
+</script>
+{% endblock %}
